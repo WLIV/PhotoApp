@@ -11,21 +11,23 @@ import com.example.photoapp.interfaces.PhotoViewInterface
 import com.example.photoapp.viewmodels.PhotoActivityViewModel
 
 class PhotoActivity : AppCompatActivity(), PhotoViewInterface {
+    //todo делай как можно меньше глобальных полей, viewPager явно лишний
     private lateinit var viewPager : ViewPager
     private lateinit var pagerAdapter : ImageViewAdapter
     private lateinit var viewModel : PhotoActivityViewModel
+
+    //todo не нужно
     private var urlList = ArrayList<String>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_photo)
 
         viewModel = ViewModelProvider(this)[PhotoActivityViewModel::class.java]
-        viewModel.init()
-        urlList = viewModel.getUrls().value!!
         pagerAdapter = ImageViewAdapter(this, urlList)
         viewPager = findViewById(R.id.viewpager)
         viewPager.adapter = pagerAdapter
-        viewPager.isVisible = true
+        viewPager.isVisible = true //todo это лишнее
 
         viewModel.getUrls().observe(this, Observer {
             setImages(it)
@@ -34,7 +36,7 @@ class PhotoActivity : AppCompatActivity(), PhotoViewInterface {
 
     }
 
-    override fun setImages(urlList: ArrayList<String>) {
+    override fun setImages(urlList: List<String>) {
         pagerAdapter.setImages(urlList)
     }
 }

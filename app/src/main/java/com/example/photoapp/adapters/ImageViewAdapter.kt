@@ -25,6 +25,7 @@ class ImageViewAdapter(private var mContext: Context, private var imageUrls: Lis
         // todo LayoutInflater.from(mContext), так короче
         //val inflater : LayoutInflater = mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         //val itemView : View = inflater.inflate(R.layout.pager, container, false)
+        //todo можно просто программно создать ImageView и добавить его
         val imageView = ImageView(mContext)
         var url = imageUrls.get(position)
         Glide.with(mContext).load(url).into(imageView)

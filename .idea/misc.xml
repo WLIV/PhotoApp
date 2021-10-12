@@ -5,6 +5,8 @@
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5255208333333333" />
         <entry key="app/src/main/res/layout/activity_photo.xml" value="0.5395833333333333" />
+        <entry key="app/src/main/res/layout/fragment_first.xml" value="0.5395833333333333" />
+        <entry key="app/src/main/res/layout/fragment_photo.xml" value="0.5395833333333333" />
         <entry key="app/src/main/res/layout/pager.xml" value="0.5395833333333333" />
       </map>
     </option>

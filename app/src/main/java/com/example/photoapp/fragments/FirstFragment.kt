@@ -12,10 +12,7 @@ import com.example.photoapp.R
 class FirstFragment : Fragment() {
 
     private lateinit var  fragmentView : View
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
 
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

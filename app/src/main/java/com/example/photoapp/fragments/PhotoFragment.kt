@@ -16,10 +16,6 @@ import com.example.photoapp.viewmodels.PhotoFragmentViewModel
 class PhotoFragment : Fragment() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

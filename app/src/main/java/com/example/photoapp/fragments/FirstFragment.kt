@@ -20,9 +20,9 @@ class FirstFragment : Fragment() {
     ): View {
        fragmentView = inflater.inflate(R.layout.fragment_first, container, false)
         val photoBtn = fragmentView.findViewById<Button>(R.id.photoBtn)
-        photoBtn.setOnClickListener {
-            Navigation.findNavController(fragmentView).navigate(R.id.action_firstFragment_to_photoFragment)
-        }
+        photoBtn.setOnClickListener { Navigation.findNavController(fragmentView).navigate(R.id.action_firstFragment_to_photoFragment) }
+        val newsBtn = fragmentView.findViewById<Button>(R.id.newsBtn)
+        newsBtn.setOnClickListener { Navigation.findNavController(fragmentView).navigate(R.id.action_firstFragment_to_newsFragment) }
         return fragmentView
     }
 

@@ -9,13 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.photoapp.R
-import com.kwabenaberko.newsapilib.models.Article
 
 
 class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
-    private lateinit var articleList: List<Article>
+    private var articleList: List<com.example.photoapp.repository.Article>? = mutableListOf()
 
-    fun setArticleList(articleList: List<Article>) {
+    fun setArticleList(articleList: List<com.example.photoapp.repository.Article>?) {
         this.articleList = articleList
         notifyDataSetChanged()
     }
@@ -29,11 +28,14 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
-        holder.bind(articleList[position])
+        holder.bind(articleList!![position])
     }
 
     override fun getItemCount(): Int {
-    return articleList.size
+        if (articleList == null){
+            return 0
+        }
+    return articleList!!.size
     }
 
     inner class MyViewHolder(view: View) :
@@ -42,10 +44,10 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
         private val description : TextView = view.findViewById(R.id.article_description)
         private val imageView : ImageView = view.findViewById(R.id.article_image)
 
-        fun bind(article: Article) {
-            title.text = article.title
-            description.text = article.description
-            Glide.with(mContext).load(article.urlToImage).into(imageView)
+        fun bind(news: com.example.photoapp.repository.Article) {
+            title.text = news.title
+            description.text = news.description
+            Glide.with(mContext).load(news.urlToImage).into(imageView)
 
         }
 

@@ -2,38 +2,49 @@ package com.example.photoapp.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.kwabenaberko.newsapilib.NewsApiClient
-import com.kwabenaberko.newsapilib.models.Article
-import com.kwabenaberko.newsapilib.models.request.EverythingRequest
-import com.kwabenaberko.newsapilib.models.response.ArticleResponse
+import com.example.photoapp.api.NewsApi
+import com.example.photoapp.repository.Article
+import com.example.photoapp.repository.News
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.Response
 
 
 class NewsFragmentViewModel : ViewModel() {
-    private var articleList = mutableListOf<Article>()
+    private var articleList : List<Article>? = mutableListOf<Article>()
     private val liveData = MutableLiveData(articleList)
-    private val newsRep = NewsApiClient("17028bda87d74c4c969f1525e283c869")
+
 
     init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://newsapi.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
 
-        newsRep.getEverything(
-            EverythingRequest.Builder().q("crypto").build(),
-            object : NewsApiClient.ArticlesResponseCallback {
-                override fun onSuccess(response: ArticleResponse) {
-                    liveData.value = response.articles
+        val newsApi : NewsApi = retrofit.create(NewsApi::class.java)
 
+        val call : Call<List<News>> = newsApi.getNews()
 
-                }
+       call.enqueue(object : Callback<List<News>>{
+           override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
+               val news = response.body()
+               articleList = news?.get(0)?.articles
+           }
 
-                override fun onFailure(throwable: Throwable) {
-                    println(throwable.message)
-                }
-            })
+           override fun onFailure(call: Call<List<News>>, t: Throwable) {
+               println(t.message)
+           }
+
+       })
+
     }
 
 
 
 
-    fun getArticles() : MutableLiveData<MutableList<Article>> {
+    fun getArticles() : MutableLiveData<List<Article>?> {
         return liveData
     }
 }

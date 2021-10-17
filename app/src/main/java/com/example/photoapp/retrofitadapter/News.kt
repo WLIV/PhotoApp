@@ -1,6 +1,4 @@
-package com.example.photoapp.repository
-
-import com.google.gson.annotations.SerializedName
+package com.example.photoapp.retrofitadapter
 
 import com.beust.klaxon.*
 

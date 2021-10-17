@@ -1,6 +1,6 @@
 package com.example.photoapp.api
 
-import com.example.photoapp.repository.News
+import com.example.photoapp.retrofitadapter.News
 import retrofit2.Call
 import retrofit2.http.GET
 

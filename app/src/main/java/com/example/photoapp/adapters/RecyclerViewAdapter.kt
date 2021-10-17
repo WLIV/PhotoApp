@@ -9,12 +9,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.photoapp.R
+import com.example.photoapp.retrofitadapter.Article
 
 
 class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
-    private var articleList: List<com.example.photoapp.repository.Article>? = mutableListOf()
+    private var articleList: List<Article>? = mutableListOf()
 
-    fun setArticleList(articleList: List<com.example.photoapp.repository.Article>?) {
+    fun setArticleList(articleList: List<Article>?) {
         this.articleList = articleList
         notifyDataSetChanged()
     }
@@ -44,7 +45,7 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
         private val description : TextView = view.findViewById(R.id.article_description)
         private val imageView : ImageView = view.findViewById(R.id.article_image)
 
-        fun bind(news: com.example.photoapp.repository.Article) {
+        fun bind(news: Article) {
             title.text = news.title
             description.text = news.description
             Glide.with(mContext).load(news.urlToImage).into(imageView)

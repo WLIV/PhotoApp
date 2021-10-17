@@ -3,8 +3,8 @@ package com.example.photoapp.viewmodels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.photoapp.api.NewsApi
-import com.example.photoapp.repository.Article
-import com.example.photoapp.repository.News
+import com.example.photoapp.retrofitadapter.Article
+import com.example.photoapp.retrofitadapter.News
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit

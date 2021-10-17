@@ -1,5 +1,4 @@
-package com.example.photoapp.repository
-import com.example.photoapp.repository.*
+package com.example.photoapp.retrofitadapter
 
 data class Article (
     val source: Source,

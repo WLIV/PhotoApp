@@ -36,7 +36,6 @@ class NewsFragmentViewModel : ViewModel() {
            override fun onFailure(call: Call<News>, t: Throwable) {
                progressBarHidden.value = true
                errorMessage.value = t.message.toString()
-               Log.e("NewsFragmentViewModel", "ERROR", t)
            }
        })
 

@@ -15,6 +15,9 @@ import com.example.photoapp.retrofitadapter.Article
 class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
     private var articleList: List<Article>? = mutableListOf()
 
+    //todo для адаптера нужно всегда создавать отдельный класс.
+    // У тебя по сути сейчас используется только 3 вещи: заголовок, описание и картинка.
+    // Создай каокй-нибудь ArticleListItem и object, который будет "переводить" Article в ArticleListItem
     fun setArticleList(articleList: List<Article>?) {
         this.articleList = articleList
         notifyDataSetChanged()
@@ -33,6 +36,8 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
     }
 
     override fun getItemCount(): Int {
+        //todo старайся никогда не делать nullable списки. Если только на 100% не уверен, что это нужно
+        //он может же быть просто пустым
         if (articleList == null){
             return 0
         }

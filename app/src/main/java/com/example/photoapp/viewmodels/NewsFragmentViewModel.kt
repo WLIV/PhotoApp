@@ -16,15 +16,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NewsFragmentViewModel : ViewModel() {
 
+    //todo лучше назвать articles
     private val liveData = MutableLiveData<List<Article>>(emptyList())
 
 
     init {
+
         val retrofit = Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
+        //todo обычно создание этого выносят в отдельный класс и делают синглоном, сделай так
         val newsApi : NewsApi = retrofit.create(NewsApi::class.java)
 
         val call : Call<News> = newsApi.getNews()

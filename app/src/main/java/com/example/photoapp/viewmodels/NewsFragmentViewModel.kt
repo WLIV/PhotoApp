@@ -1,5 +1,7 @@
 package com.example.photoapp.viewmodels
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.photoapp.api.NewsApi
@@ -7,14 +9,14 @@ import com.example.photoapp.retrofitadapter.Article
 import com.example.photoapp.retrofitadapter.News
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.Response
 
 
 class NewsFragmentViewModel : ViewModel() {
-    private var articleList : List<Article>? = mutableListOf<Article>()
-    private val liveData = MutableLiveData(articleList)
+
+    private val liveData = MutableLiveData<List<Article>>(emptyList())
 
 
     init {
@@ -25,16 +27,16 @@ class NewsFragmentViewModel : ViewModel() {
 
         val newsApi : NewsApi = retrofit.create(NewsApi::class.java)
 
-        val call : Call<List<News>> = newsApi.getNews()
+        val call : Call<News> = newsApi.getNews()
 
-       call.enqueue(object : Callback<List<News>>{
-           override fun onResponse(call: Call<List<News>>, response: Response<List<News>>) {
+       call.enqueue(object : Callback<News>{
+           override fun onResponse(call: Call<News>, response: Response<News>) {
                val news = response.body()
-               articleList = news?.get(0)?.articles
+               liveData.value = news?.articles.orEmpty()
            }
 
-           override fun onFailure(call: Call<List<News>>, t: Throwable) {
-               println(t.message)
+           override fun onFailure(call: Call<News>, t: Throwable) {
+               Log.e("NewsFragmentViewModel", "ERROR", t)
            }
 
        })
@@ -44,7 +46,7 @@ class NewsFragmentViewModel : ViewModel() {
 
 
 
-    fun getArticles() : MutableLiveData<List<Article>?> {
+    fun getArticles() : LiveData<List<Article>?> {
         return liveData
     }
 }

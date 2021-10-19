@@ -2,4 +2,6 @@
     <string name="app_name">PhotoApp</string>
     <string name="photo">Фотографии</string>
     <string name="news">Новости</string>
+    <string name="noTitle">БЕЗ НАЗВАНИЯ</string>
+    <string name="noDescription">БЕЗ ОПИСАНИЯ</string>
 </resources>

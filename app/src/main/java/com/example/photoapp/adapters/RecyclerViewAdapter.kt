@@ -13,12 +13,9 @@ import com.example.photoapp.retrofitadapter.Article
 
 
 class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
-    private var articleList: List<Article>? = mutableListOf()
+    private var articleList: List<ArticleListItem> = mutableListOf()
 
-    //todo для адаптера нужно всегда создавать отдельный класс.
-    // У тебя по сути сейчас используется только 3 вещи: заголовок, описание и картинка.
-    // Создай каокй-нибудь ArticleListItem и object, который будет "переводить" Article в ArticleListItem
-    fun setArticleList(articleList: List<Article>?) {
+    fun setArticleList(articleList: List<ArticleListItem>) {
         this.articleList = articleList
         notifyDataSetChanged()
     }
@@ -32,16 +29,11 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
-        holder.bind(articleList!![position])
+        holder.bind(articleList[position])
     }
 
     override fun getItemCount(): Int {
-        //todo старайся никогда не делать nullable списки. Если только на 100% не уверен, что это нужно
-        //он может же быть просто пустым
-        if (articleList == null){
-            return 0
-        }
-    return articleList!!.size
+    return articleList.size
     }
 
     inner class MyViewHolder(view: View) :
@@ -50,7 +42,7 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
         private val description : TextView = view.findViewById(R.id.article_description)
         private val imageView : ImageView = view.findViewById(R.id.article_image)
 
-        fun bind(news: Article) {
+        fun bind(news: ArticleListItem) {
             title.text = news.title
             description.text = news.description
             Glide.with(mContext).load(news.urlToImage).into(imageView)

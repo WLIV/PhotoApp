@@ -4,52 +4,52 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.photoapp.api.NewsApi
+import com.example.photoapp.repository.NewsClient
 import com.example.photoapp.retrofitadapter.Article
 import com.example.photoapp.retrofitadapter.News
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class NewsFragmentViewModel : ViewModel() {
 
-    //todo лучше назвать articles
-    private val liveData = MutableLiveData<List<Article>>(emptyList())
+
+    private val articles = MutableLiveData<List<Article>>(emptyList())
+    private val progressBarHidden = MutableLiveData(false)
+    private val errorMessage = MutableLiveData<String?>(null)
 
 
     init {
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://newsapi.org/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
+        val newsClient = NewsClient.getClientInstance()
 
-        //todo обычно создание этого выносят в отдельный класс и делают синглоном, сделай так
-        val newsApi : NewsApi = retrofit.create(NewsApi::class.java)
-
-        val call : Call<News> = newsApi.getNews()
+        val call : Call<News> = newsClient.getNews()
 
        call.enqueue(object : Callback<News>{
            override fun onResponse(call: Call<News>, response: Response<News>) {
                val news = response.body()
-               liveData.value = news?.articles.orEmpty()
+              articles.value = news?.articles.orEmpty()
+               progressBarHidden.value = true
            }
 
            override fun onFailure(call: Call<News>, t: Throwable) {
+               progressBarHidden.value = true
+               errorMessage.value = t.message.toString()
                Log.e("NewsFragmentViewModel", "ERROR", t)
            }
-
        })
 
     }
 
-
-
+    fun getErrorMessage() : LiveData<String?>{
+        return errorMessage
+    }
+    fun getProgressBarStatus() : LiveData<Boolean>{
+        return progressBarHidden
+    }
 
     fun getArticles() : LiveData<List<Article>?> {
-        return liveData
+        return articles
     }
 }

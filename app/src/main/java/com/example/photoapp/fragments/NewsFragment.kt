@@ -34,10 +34,16 @@ class NewsFragment : Fragment() {
         recyclerView.addItemDecoration(dividerItemDecoration)
         recyclerView.adapter = recyclerViewAdapter
         viewModel.getArticles().observe(viewLifecycleOwner, {
+            //todo почему лайвдата отдает nullable список?
+            //todo нужно чтобы лайвдата сразу отдавала сконверченные модели
             val articleList = ArticleListItemConverter(it).convertArticle()
             recyclerViewAdapter.setArticleList(articleList)
             })
         viewModel.getProgressBarStatus().observe(viewLifecycleOwner, {
+            //todo так проще
+            //скрываешь вью, если getProgressBarStatus == true
+            //хотя я бы еще переименовал getProgressBarStatus в hideStatusBar, так понятнее
+            //progressBar.isGone = it
             if (it){
                 hideProgressBar()
             }

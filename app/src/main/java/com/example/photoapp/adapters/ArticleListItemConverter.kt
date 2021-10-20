@@ -5,8 +5,7 @@ import com.example.photoapp.retrofitadapter.Article
 class ArticleListItemConverter(val articleList : List<Article>? ) {
     fun convertArticle() : List<ArticleListItem> {
         val articleListItemList = mutableListOf<ArticleListItem>()
-        if (articleList == null)
-        {
+        if (articleList == null) {
             return articleListItemList
         }
         articleList.forEach {

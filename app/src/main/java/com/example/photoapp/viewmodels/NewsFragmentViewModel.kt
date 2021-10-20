@@ -17,11 +17,14 @@ class NewsFragmentViewModel : ViewModel() {
 
     private val articles = MutableLiveData<List<Article>>(emptyList())
     private val progressBarHidden = MutableLiveData(false)
+    //todo подумай какая проблема может возникнуть с лайвдатой и тестовым сообщением в ней,
+    // которое отображается в тосте. Подсказка: проблема возникнет при пересоздании вью
     private val errorMessage = MutableLiveData<String?>(null)
 
 
     init {
 
+        //todo лучше создать отдельный приватный метод getNews и вызывать отсюда
         val newsClient = NewsClient.getClientInstance()
 
         val call : Call<News> = newsClient.getNews()

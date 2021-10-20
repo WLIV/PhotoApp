@@ -2,6 +2,12 @@ package com.example.photoapp.adapters
 
 import com.example.photoapp.R
 
+//todo это просто модель данных и тут не должно быть никакой логики
+//сделай этот класс как data class
+//в дата классе желательно всегда все поля делать val
+//"Без названия" и "без описания" подставляй в адаптере
+//то есть если title == null, в текст вью вместо заголовка пишешь "без названия"
+//в случае отсутствия картинки она просто не отображается. Но если хочется, то в глайде есть placeholder
 class ArticleListItem(var title : String?, var description : String?, var urlToImage : String?) {
     init {
         if (title == null){

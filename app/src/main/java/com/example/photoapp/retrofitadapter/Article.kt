@@ -1,13 +1,12 @@
 package com.example.photoapp.retrofitadapter
 
-//todo null по дефолту - это лишнее
 data class Article (
-    val source: Source? = null,
-    val author: String? = null,
-    val title: String? = null,
-    val description: String? = null,
-    val url: String? = null,
-    val urlToImage: String? = null,
-    val publishedAt: String? = null,
+    val source: Source?,
+    val author: String? ,
+    val title: String? ,
+    val description: String?,
+    val url: String?,
+    val urlToImage: String?,
+    val publishedAt: String?,
     val content: String? = null
 )

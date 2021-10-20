@@ -43,9 +43,19 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
         private val imageView : ImageView = view.findViewById(R.id.article_image)
 
         fun bind(news: ArticleListItem) {
+            var urlToImage = news.urlToImage
+            if (news.title == null){
+                title.text = R.string.noTitle.toString()
+            }
+            if (description == null){
+                description.text = R.string.noDescription.toString()
+            }
+            if (news.urlToImage == null) {
+                urlToImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png"  //картинка с надписью что нет доступной картинки, на случай если у статьи нет картинки
+            }
             title.text = news.title
             description.text = news.description
-            Glide.with(mContext).load(news.urlToImage).into(imageView)
+            Glide.with(mContext).load(urlToImage).into(imageView) //почему-то когда пытаюсь поставить placeholder - красным подсвечивается и не находит reference, поэтому сделал через проверку url на нуль
 
         }
 

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,8 +26,9 @@ class NewsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-       newsView = inflater.inflate(R.layout.fragment_news, container, false)
-        val viewModel : NewsFragmentViewModel = ViewModelProvider(this)[NewsFragmentViewModel::class.java]
+        newsView = inflater.inflate(R.layout.fragment_news, container, false)
+        val viewModel: NewsFragmentViewModel =
+            ViewModelProvider(this)[NewsFragmentViewModel::class.java]
         val recyclerView = newsView.findViewById<RecyclerView>(R.id.recyclerView)
         val recyclerViewAdapter = RecyclerViewAdapter(requireContext())
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -34,19 +36,12 @@ class NewsFragment : Fragment() {
         recyclerView.addItemDecoration(dividerItemDecoration)
         recyclerView.adapter = recyclerViewAdapter
         viewModel.getArticles().observe(viewLifecycleOwner, {
-            //todo почему лайвдата отдает nullable список?
-            //todo нужно чтобы лайвдата сразу отдавала сконверченные модели
-            val articleList = ArticleListItemConverter(it).convertArticle()
-            recyclerViewAdapter.setArticleList(articleList)
-            })
+            recyclerViewAdapter.setArticleList(it)
+        })
         viewModel.getProgressBarStatus().observe(viewLifecycleOwner, {
-            //todo так проще
-            //скрываешь вью, если getProgressBarStatus == true
-            //хотя я бы еще переименовал getProgressBarStatus в hideStatusBar, так понятнее
-            //progressBar.isGone = it
-            if (it){
-                hideProgressBar()
-            }
+            val progressBar = newsView.findViewById<ProgressBar>(R.id.progressBar)
+            progressBar.isGone = it
+
         })
 
         viewModel.getErrorMessage().observe(viewLifecycleOwner, {
@@ -57,11 +52,5 @@ class NewsFragment : Fragment() {
 
         return newsView
     }
-
-    private fun hideProgressBar(){
-        val progressBar = newsView.findViewById<ProgressBar>(R.id.progressBar)
-        progressBar.visibility = View.INVISIBLE
-    }
-
 
     }

@@ -87,7 +87,6 @@ class SettingsFragment : Fragment() {
                     a_builder.show()
                 }
                 else{
-                    println(currentMaxAmount)
                     viewModel.saveMaxAmount(currentMaxAmount)
                 }
             }

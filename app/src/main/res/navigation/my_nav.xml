@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_firstFragment_to_newsFragment"
             app:destination="@id/newsFragment" />
+        <action
+            android:id="@+id/action_firstFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/photoFragment"
@@ -27,4 +30,9 @@
         android:name="com.example.photoapp.fragments.NewsFragment"
         android:label="fragment_news"
         tools:layout="@layout/fragment_news" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.photoapp.fragments.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

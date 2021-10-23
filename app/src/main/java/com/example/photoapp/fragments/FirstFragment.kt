@@ -23,6 +23,8 @@ class FirstFragment : Fragment() {
         photoBtn.setOnClickListener { Navigation.findNavController(fragmentView).navigate(R.id.action_firstFragment_to_photoFragment) }
         val newsBtn = fragmentView.findViewById<Button>(R.id.newsBtn)
         newsBtn.setOnClickListener { Navigation.findNavController(fragmentView).navigate(R.id.action_firstFragment_to_newsFragment) }
+        val settingsButton = fragmentView.findViewById<Button>(R.id.settingsButton)
+        settingsButton.setOnClickListener { Navigation.findNavController(fragmentView).navigate(R.id.action_firstFragment_to_settingsFragment) }
         return fragmentView
     }
 

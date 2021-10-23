@@ -21,17 +21,14 @@ class NewsFragmentViewModel : ViewModel() {
 
 
     init {
-        getNews() //там было написано про приватный метод
-        //не стоит писать много кода в инит блоке, разделяй по фукциям
+        getNews()
     }
 
     fun getErrorMessage() : LiveData<String?>{
         return errorMessage
     }
 
-    //в таких случаях надо либо переименовывать в hideProgressBar
-    //или писать комментарий к методу
-    //иначе вообще не понятно что за статус с boolean значением
+
     fun getProgressBarStatus() : LiveData<Boolean>{
         return progressBarHidden
     }

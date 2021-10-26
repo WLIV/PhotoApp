@@ -7,14 +7,16 @@ import kotlin.properties.Delegates
 class SeekBarListener(
     private val onProgressChanged: (progress: Int) -> Unit
 ): SeekBar.OnSeekBarChangeListener {
-private var progress by Delegates.notNull<Int>()
 
-    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-       this.progress = progress
-    }
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {}
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-    override fun onStopTrackingTouch(seekBar: SeekBar?) { onProgressChanged(progress)}
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        if (seekBar != null) {
+            onProgressChanged(seekBar.progress)
+        }
+    }
 
 }

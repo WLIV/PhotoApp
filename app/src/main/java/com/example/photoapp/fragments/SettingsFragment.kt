@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.photoapp.R
+import com.example.photoapp.utils.MinMaxAlertDialog
 import com.example.photoapp.utils.SeekBarListener
 import com.example.photoapp.viewmodels.SettingsFragmentViewModel
 
@@ -53,6 +54,13 @@ class SettingsFragment : Fragment() {
             viewModel.onMaxAmountChanged(it)
         })
 
+        viewModel.observeAlertDialog(viewLifecycleOwner, {
+            if (it != null) {
+                val dialog =
+                    MinMaxAlertDialog(requireContext(), it, getString(R.string.minMaxErrorTitle))
+                dialog.show()
+            }
+        })
 
 
 

@@ -1,12 +1,12 @@
 package com.example.photoapp.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import android.content.Context
+import androidx.lifecycle.*
+import com.example.photoapp.R
 import com.example.photoapp.repository.Preferences
 import com.example.photoapp.repository.SettingsRepository
+import com.example.photoapp.utils.MinMaxAlertDialog
 
 class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
@@ -61,10 +61,14 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
     //метод, который вызывает фрагмент при изменении ползунка с мин. кол-вом фоток
     //todo проверка max > min, иначе - showAlertDialog с текстом
     fun onMinAmountChanged(min: Int){
-        if (min > currentState.maxPhotosAmount)
-        {state.value = currentState.copy()}
+        if (min > currentState.maxPhotosAmount) {
+            state.value = currentState.copy()
+            val context : Context = getApplication()
+            showAlertDialog.value = context.getString(R.string.maxAmountError)
+            showAlertDialog.postValue(null)
+        }
         else if(min == 0){
-            preferences.saveInt(value = min + 1, key = SettingsRepository.maxAmountKey)
+            preferences.saveInt(value = min + 1, key = SettingsRepository.minAmountKey)
             state.value = currentState.copy(minPhotosAmount = min + 1)
         }
         else {
@@ -77,8 +81,12 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
     fun onMaxAmountChanged(max: Int){
-        if (max < currentState.minPhotosAmount)
-        {state.value = currentState.copy()}
+        if (currentState.minPhotosAmount > 1 && max < currentState.minPhotosAmount) {
+            state.value = currentState.copy()
+            val context : Context = getApplication()
+            showAlertDialog.value = context.getString(R.string.maxAmountError)
+            showAlertDialog.postValue(null)
+        }
         else if(max == 0){
             preferences.saveInt(value = max + 1, key = SettingsRepository.maxAmountKey)
             state.value = currentState.copy(maxPhotosAmount = max + 1)

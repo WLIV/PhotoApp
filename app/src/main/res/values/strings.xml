@@ -9,4 +9,5 @@
     <string name="maximumAmount">Максимальное кол-во фотографий</string>
     <string name="maxAmountError">Максимальное кол-во не может быть меньше минимального</string>
     <string name="ok">ок</string>
+    <string name="minMaxErrorTitle">Минимум больше максимума!</string>
 </resources>

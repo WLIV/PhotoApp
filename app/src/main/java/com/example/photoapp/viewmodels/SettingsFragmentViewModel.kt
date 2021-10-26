@@ -6,10 +6,11 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.photoapp.repository.Preferences
+import com.example.photoapp.repository.SettingsRepository
 
 class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
-    //todo сдлеать settings repository
+
     private val preferences = Preferences(getApplication())
 
     private val state = MutableLiveData(
@@ -49,10 +50,10 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
     //эти методы теперь приватны
     private fun getMinPrefs() : Int{
-        return preferences.getSavedMinAmount()
+        return preferences.getInt(SettingsRepository.minAmountKey, 3)
     }
     private fun getMaxPrefs() : Int{
-        return preferences.getSavedMaxAmount()
+        return preferences.getInt(SettingsRepository.maxAmountKey, 15)
     }
 
     //======
@@ -60,26 +61,35 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
     //метод, который вызывает фрагмент при изменении ползунка с мин. кол-вом фоток
     //todo проверка max > min, иначе - showAlertDialog с текстом
     fun onMinAmountChanged(min: Int){
-        //сохраняем в префсы, обновляем состояние
-        preferences.saveMinAmount(min)
-        state.value = currentState.copy(
-            minPhotosAmount = min
-        )
+        if (min > currentState.maxPhotosAmount)
+        {state.value = currentState.copy()}
+        else if(min == 0){
+            preferences.saveInt(value = min + 1, key = SettingsRepository.maxAmountKey)
+            state.value = currentState.copy(minPhotosAmount = min + 1)
+        }
+        else {
+            preferences.saveInt(value = min, key = SettingsRepository.minAmountKey)
+            state.value = currentState.copy(
+                minPhotosAmount = min
+            )
+        }
     }
 
-    //ну а тут с максимальным
+
     fun onMaxAmountChanged(max: Int){
-        //todo
+        if (max < currentState.minPhotosAmount)
+        {state.value = currentState.copy()}
+        else if(max == 0){
+            preferences.saveInt(value = max + 1, key = SettingsRepository.maxAmountKey)
+            state.value = currentState.copy(maxPhotosAmount = max + 1)
+        }
+        else{
+            preferences.saveInt(value = max, key = SettingsRepository.maxAmountKey)
+            state.value = currentState.copy(maxPhotosAmount = max)
+        }
     }
 
-//    fun saveMaxAmount(currentMaxAmount: Int) {
-//        preferences.saveMaxAmount(currentMaxAmount)
-//    }
-//
-//    fun saveMinAmount(currentMinAmount: Int) {
-//        preferences.saveMinAmount(currentMinAmount)
-//
-//    }
+
 
     /**
      * State - класс, который описывает состояние экрана

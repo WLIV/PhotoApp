@@ -2,15 +2,21 @@ package com.example.photoapp.viewmodels
 
 import android.app.Application
 import android.content.Context
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.photoapp.R
 import com.example.photoapp.repository.Preferences
 import com.example.photoapp.repository.SettingsRepository
-import com.example.photoapp.utils.MinMaxAlertDialog
 
 class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
+    //todo создал интерфейс SettingsRepository. Создай реализацию.
+    // Данная реализация будет сохранять/читать префсы с помощью классаа Preferences
+    // PreferencesInterface не нужен
+    // репозитории это абстракции над данными и они ВСЕГДА должны быть отделены интерфейсом
     private val preferences = Preferences(getApplication())
 
     private val state = MutableLiveData(
@@ -61,9 +67,12 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
     //метод, который вызывает фрагмент при изменении ползунка с мин. кол-вом фоток
     //todo проверка max > min, иначе - showAlertDialog с текстом
     fun onMinAmountChanged(min: Int){
+        //todo переделать на when, даже студия предлагает. Обращай внимание на то что она подчеркивает
+        //мб включи темную тему, в ней все лучше видно
         if (min > currentState.maxPhotosAmount) {
             state.value = currentState.copy()
             val context : Context = getApplication()
+            //todo найди в гугле класс SingleLiveEvent или что-то такое и используй его
             showAlertDialog.value = context.getString(R.string.maxAmountError)
             showAlertDialog.postValue(null)
         }

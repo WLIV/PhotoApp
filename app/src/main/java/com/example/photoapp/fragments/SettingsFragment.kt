@@ -16,6 +16,8 @@ import com.example.photoapp.viewmodels.SettingsFragmentViewModel
 
 class SettingsFragment : Fragment() {
 
+    //todo старайся все поля делать nullable, а не lateinit. Иначе очень легко выстрелить себе в ногу,
+    // обратившись к полю до инициализации. Почитай про делегат lazy в котлине, очень полезная вещь
     private lateinit var fragmentView: View
     private lateinit var maxTextView : TextView
     private lateinit var minTextView: TextView
@@ -43,6 +45,8 @@ class SettingsFragment : Fragment() {
 
         minSeekBar.setOnSeekBarChangeListener(SeekBarListener {
             //тут просто говорим вьюмодели, что данные поменялись
+            //todo обрати внимание на коммент выше, мы не должны тут сеттить строку во вью.
+            //все данные сеттятся у нас в методе observeState, ты как раз там это и делаешь
             minTextView.text = it.toString()
             viewModel.onMinAmountChanged(it)
         })
@@ -50,6 +54,7 @@ class SettingsFragment : Fragment() {
         maxSeekBar  = fragmentView.findViewById(R.id.maxPhotoAmount)
 
         maxSeekBar.setOnSeekBarChangeListener(SeekBarListener{
+            //та же проблема что и выше
             maxTextView.text= it.toString()
             viewModel.onMaxAmountChanged(it)
         })

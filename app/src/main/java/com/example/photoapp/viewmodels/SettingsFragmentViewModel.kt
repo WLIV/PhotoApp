@@ -9,15 +9,13 @@ import androidx.lifecycle.Observer
 import com.example.photoapp.R
 import com.example.photoapp.repository.Preferences
 import com.example.photoapp.repository.SettingsRepository
+import com.example.photoapp.utils.SingleLiveEvent
 
 class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
-    //todo создал интерфейс SettingsRepository. Создай реализацию.
-    // Данная реализация будет сохранять/читать префсы с помощью классаа Preferences
-    // PreferencesInterface не нужен
-    // репозитории это абстракции над данными и они ВСЕГДА должны быть отделены интерфейсом
-    private val preferences = Preferences(getApplication())
+
+    private val preferences = SettingsRepository(getApplication())
 
     private val state = MutableLiveData(
         //тут передаем начальное значение экрана, которое будет отображаться при входе в него
@@ -32,7 +30,7 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
         get() = state.value!!
 
     //показывает алерт с переданным текстом
-    private val showAlertDialog = MutableLiveData<String>()
+    private val showAlertDialog = SingleLiveEvent<String>()
 
     fun observeState(lifecycleOwner: LifecycleOwner, observer: Observer<State>){
         state.observe(lifecycleOwner, observer)
@@ -56,35 +54,32 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
     //эти методы теперь приватны
     private fun getMinPrefs() : Int{
-        return preferences.getInt(SettingsRepository.minAmountKey, 3)
+        return preferences.getMinPhotosAmount()
     }
     private fun getMaxPrefs() : Int{
-        return preferences.getInt(SettingsRepository.maxAmountKey, 15)
+        return preferences.getMaxPhotosAmount()
     }
 
-    //======
 
     //метод, который вызывает фрагмент при изменении ползунка с мин. кол-вом фоток
-    //todo проверка max > min, иначе - showAlertDialog с текстом
     fun onMinAmountChanged(min: Int){
-        //todo переделать на when, даже студия предлагает. Обращай внимание на то что она подчеркивает
-        //мб включи темную тему, в ней все лучше видно
-        if (min > currentState.maxPhotosAmount) {
-            state.value = currentState.copy()
-            val context : Context = getApplication()
-            //todo найди в гугле класс SingleLiveEvent или что-то такое и используй его
-            showAlertDialog.value = context.getString(R.string.maxAmountError)
-            showAlertDialog.postValue(null)
-        }
-        else if(min == 0){
-            preferences.saveInt(value = min + 1, key = SettingsRepository.minAmountKey)
-            state.value = currentState.copy(minPhotosAmount = min + 1)
-        }
-        else {
-            preferences.saveInt(value = min, key = SettingsRepository.minAmountKey)
-            state.value = currentState.copy(
-                minPhotosAmount = min
-            )
+        when {
+            min > currentState.maxPhotosAmount -> {
+                state.value = currentState.copy()
+                val context : Context = getApplication()
+                showAlertDialog.value = context.getString(R.string.maxAmountError)
+
+            }
+            min == 0 -> {
+                preferences.putMinPhotosAmount(min + 1)
+                state.value = currentState.copy(minPhotosAmount = min + 1)
+            }
+            else -> {
+                preferences.putMinPhotosAmount(min)
+                state.value = currentState.copy(
+                    minPhotosAmount = min
+                )
+            }
         }
     }
 
@@ -94,14 +89,14 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
             state.value = currentState.copy()
             val context : Context = getApplication()
             showAlertDialog.value = context.getString(R.string.maxAmountError)
-            showAlertDialog.postValue(null)
+
         }
         else if(max == 0){
-            preferences.saveInt(value = max + 1, key = SettingsRepository.maxAmountKey)
+            preferences.putMaxPhotosAmount(max + 1)
             state.value = currentState.copy(maxPhotosAmount = max + 1)
         }
         else{
-            preferences.saveInt(value = max, key = SettingsRepository.maxAmountKey)
+            preferences.putMaxPhotosAmount(max)
             state.value = currentState.copy(maxPhotosAmount = max)
         }
     }

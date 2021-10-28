@@ -21,9 +21,9 @@ class PhotoFragmentViewModel() : ViewModel(){
     }
 
     fun getImagesWithPrefs(context: Context){
-        val preferences = Preferences(context)
+        val preferences = SettingsRepository(context)
         liveDataListUrls.value = repository.getImages(
-            (preferences.getInt(SettingsRepository.minAmountKey, 3)..preferences.getInt(SettingsRepository.maxAmountKey, 15)).random()
+            (preferences.getMinPhotosAmount()..preferences.getMaxPhotosAmount()).random()
         )
     }
 

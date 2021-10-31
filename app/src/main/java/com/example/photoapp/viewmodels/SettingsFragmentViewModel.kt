@@ -68,7 +68,6 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
                 state.value = currentState.copy()
                 val context : Context = getApplication()
                 showAlertDialog.value = context.getString(R.string.maxAmountError)
-
             }
             min == 0 -> {
                 preferences.putMinPhotosAmount(min + 1)

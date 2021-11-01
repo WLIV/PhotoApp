@@ -13,9 +13,8 @@ import com.example.photoapp.utils.SingleLiveEvent
 class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
-    //todo preferences переименуй в settingsRepository
-    //ну и сделай ссылку через интерфейс
-    private val preferences = SettingsRepository(getApplication())
+
+    private val settingsRepository : com.example.photoapp.interfaces.SettingsRepository = SettingsRepository(getApplication())
 
     private val state = MutableLiveData(
         //тут передаем начальное значение экрана, которое будет отображаться при входе в него
@@ -54,10 +53,10 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
     //эти методы теперь приватны
     private fun getMinPrefs() : Int{
-        return preferences.getMinPhotosAmount()
+        return settingsRepository.getMinPhotosAmount()
     }
     private fun getMaxPrefs() : Int{
-        return preferences.getMaxPhotosAmount()
+        return settingsRepository.getMaxPhotosAmount()
     }
 
 
@@ -71,11 +70,11 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
             }
             min == 0 -> {
-                preferences.putMinPhotosAmount(min + 1)
+                settingsRepository.putMinPhotosAmount(min + 1)
                 state.value = currentState.copy(minPhotosAmount = min + 1)
             }
             else -> {
-                preferences.putMinPhotosAmount(min)
+                settingsRepository.putMinPhotosAmount(min)
                 state.value = currentState.copy(
                     minPhotosAmount = min
                 )
@@ -85,20 +84,23 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
     fun onMaxAmountChanged(max: Int){
-        //todo переделать на when
-        if (currentState.minPhotosAmount > 1 && max < currentState.minPhotosAmount) {
-            state.value = currentState.copy()
-            val context : Context = getApplication()
-            showAlertDialog.value = context.getString(R.string.maxAmountError)
 
-        }
-        else if(max == 0){
-            preferences.putMaxPhotosAmount(max + 1)
-            state.value = currentState.copy(maxPhotosAmount = max + 1)
-        }
-        else{
-            preferences.putMaxPhotosAmount(max)
-            state.value = currentState.copy(maxPhotosAmount = max)
+        when {
+            currentState.minPhotosAmount > 1 && max < currentState.minPhotosAmount -> {
+                state.value = currentState.copy()
+                val context: Context = getApplication()
+                showAlertDialog.value = context.getString(R.string.maxAmountError)
+
+            }
+
+            max == 0 -> {
+                settingsRepository.putMaxPhotosAmount(max + 1)
+                state.value = currentState.copy(maxPhotosAmount = max + 1)
+            }
+            else -> {
+                settingsRepository.putMaxPhotosAmount(max)
+                state.value = currentState.copy(maxPhotosAmount = max)
+            }
         }
     }
 

@@ -17,8 +17,6 @@ import com.example.photoapp.viewmodels.SettingsFragmentViewModel
 class SettingsFragment : Fragment() {
 
 
-    //todo fragmentView можно переделать на локальную переменную
-    private lateinit var fragmentView: View
     private var maxTextView : TextView? = null
     private var minTextView: TextView? = null
     private var minSeekBar : SeekBar? = null
@@ -31,7 +29,7 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        fragmentView = inflater.inflate(R.layout.fragment_settings, container, false)
+       val fragmentView = inflater.inflate(R.layout.fragment_settings, container, false)
 
 
 

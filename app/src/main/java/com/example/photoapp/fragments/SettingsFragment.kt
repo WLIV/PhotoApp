@@ -17,6 +17,7 @@ import com.example.photoapp.viewmodels.SettingsFragmentViewModel
 class SettingsFragment : Fragment() {
 
 
+    //todo fragmentView можно переделать на локальную переменную
     private lateinit var fragmentView: View
     private var maxTextView : TextView? = null
     private var minTextView: TextView? = null

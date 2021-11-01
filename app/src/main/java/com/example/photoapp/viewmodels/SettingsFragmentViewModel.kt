@@ -7,14 +7,14 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.photoapp.R
-import com.example.photoapp.repository.Preferences
 import com.example.photoapp.repository.SettingsRepository
 import com.example.photoapp.utils.SingleLiveEvent
 
 class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
-
+    //todo preferences переименуй в settingsRepository
+    //ну и сделай ссылку через интерфейс
     private val preferences = SettingsRepository(getApplication())
 
     private val state = MutableLiveData(
@@ -85,6 +85,7 @@ class SettingsFragmentViewModel(app: Application) : AndroidViewModel(app) {
 
 
     fun onMaxAmountChanged(max: Int){
+        //todo переделать на when
         if (currentState.minPhotosAmount > 1 && max < currentState.minPhotosAmount) {
             state.value = currentState.copy()
             val context : Context = getApplication()

@@ -3,7 +3,7 @@ package com.example.photoapp.repository
 import android.content.Context
 import com.example.photoapp.interfaces.SettingsRepository
 
-//никогда не называй интерфейс и реализацию одинаково. К реализации добавляй в конце Impl
+//todo никогда не называй интерфейс и реализацию одинаково. К реализации добавляй в конце Impl
 class SettingsRepository(val context: Context) :  SettingsRepository {
     private val preferences = Preferences(context)
     private val maxAmountKey = "MAX_PHOTOS_AMOUNT"

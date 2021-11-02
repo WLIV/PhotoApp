@@ -26,6 +26,7 @@ class NewsFragmentViewModel : ViewModel() {
 
 
     init {
+        //todo у вью моделей есть прекрасная вещь как viewModelScope
         CoroutineScope(Dispatchers.IO).launch { getNews() }
     }
 
@@ -44,6 +45,8 @@ class NewsFragmentViewModel : ViewModel() {
     }
 
     private suspend fun getNews() = coroutineScope {
+        //todo launch запускает асинхронный блок кода. Enqueue делает тоже самое. Не надо их смешивать
+        //newsClient.getNews() можно просто пометить как suspend и все, только оберни в try/catch
         launch {
             val newsClient = NewsClient.getClientInstance()
 

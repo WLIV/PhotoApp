@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SettingsFragment">
+    tools:context=".fragments.SettingsFragment"
+    android:background="@drawable/ic_background">
 
     <SeekBar
         android:id="@+id/minPhotoAmount"
@@ -19,7 +20,11 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.13" />
+        app:layout_constraintVertical_bias="0.13"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="#191919"
+        />
 
     <SeekBar
         android:id="@+id/maxPhotoAmount"
@@ -33,32 +38,43 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.258" />
+        app:layout_constraintTop_toTopOf="@id/minPhotoAmount"
+        app:layout_constraintVertical_bias="0.258"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="#191919"/>
 
     <TextView
         android:id="@+id/maximumAmountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/maximumAmount"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/maxPhotoAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.231" />
+        app:layout_constraintVertical_bias="0.97"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/oswald_regular"
+        />
 
     <TextView
         android:id="@+id/minimalAmountTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/minimalAmount"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/minPhotoAmount"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.103" />
+        app:layout_constraintVertical_bias="0.95"
+        android:layout_marginStart="12dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/oswald_regular"
+        />
 
     <TextView
         android:id="@+id/photoTextView"
@@ -67,12 +83,13 @@
         android:text="@string/photo"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.061" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/white"
+        android:fontFamily="@font/oswald_bold"
+        />
 
     <TextView
         android:id="@+id/chosenAmountMin"
@@ -81,10 +98,12 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.155" />
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="@id/minPhotoAmount"
+        app:layout_constraintTop_toBottomOf="@id/minPhotoAmount"
+        app:layout_constraintVertical_bias="0.005"
+        android:textColor="@color/white"
+        android:fontFamily="@font/oswald_extralight"/>
 
     <TextView
         android:id="@+id/chosenAmountMax"
@@ -93,8 +112,10 @@
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.283" />
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="@id/maxPhotoAmount"
+        app:layout_constraintTop_toBottomOf="@id/maxPhotoAmount"
+        app:layout_constraintVertical_bias="0.005"
+        android:textColor="@color/white"
+        android:fontFamily="@font/oswald_extralight" />
 </androidx.constraintlayout.widget.ConstraintLayout>

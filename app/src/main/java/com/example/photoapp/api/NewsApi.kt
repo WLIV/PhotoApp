@@ -11,6 +11,6 @@ interface NewsApi {
 
     //параметры сделай через query
     @GET("top-headlines?country=ru&apiKey=17028bda87d74c4c969f1525e283c869")
-    suspend fun getNews() : Call<News>
+    suspend fun getNews() : News
 
 }

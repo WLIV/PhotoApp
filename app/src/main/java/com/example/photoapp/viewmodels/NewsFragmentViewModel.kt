@@ -28,7 +28,6 @@ class NewsFragmentViewModel : ViewModel() {
 
 
     init {
-        //todo у вью моделей есть прекрасная вещь как viewModelScope
         viewModelScope.launch { getNews() }
     }
 
@@ -47,28 +46,25 @@ class NewsFragmentViewModel : ViewModel() {
     }
 
     private suspend fun getNews() {
-        //todo launch запускает асинхронный блок кода. Enqueue делает тоже самое. Не надо их смешивать
-        //newsClient.getNews() можно просто пометить как suspend и все, только оберни в try/catch
              val newsClient = NewsClient.getClientInstance()
-             val call: Call<News>? = try {
+             val callResult : News? = try {
                  newsClient.getNews()
              }catch (e : Exception){
-                 e.printStackTrace()
+                 errorMessage.value = e.toString()
+                 println(e.toString())
+                 errorMessage.postValue(null)
                  null
              }
-        call?.enqueue(object : Callback<News> {
-            override fun onResponse(call: Call<News>, response: Response<News>) {
-                val news = response.body()?.articles
-                articles.value = news?.let { ArticleListItemConverter(it).convertArticle() }
-                progressBarHidden.value = true
-            }
 
-            override fun onFailure(call: Call<News>, t: Throwable) {
-                progressBarHidden.value = true
-                errorMessage.value = t.message.toString()
-                errorMessage.postValue(null)
-            }
-        })
+       if (callResult != null){
+           articles.value = callResult.articles?.let { ArticleListItemConverter(it).convertArticle() }
+           progressBarHidden.value = true
+       }
+        else{
+           progressBarHidden.value = true
+
+       }
+
     }
 
 

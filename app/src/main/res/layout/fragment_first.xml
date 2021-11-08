@@ -4,46 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FirstFragment">
+    tools:context=".fragments.FirstFragment"
+    android:background="@drawable/ic_background"
+    >
 
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/photoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:shadowColor="#FFFFFF"
         android:text="@string/photo"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/oswald_regular"
+        android:background="@drawable/button_border"
+        android:textColor="@color/white"
+        />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/newsBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:shadowColor="#FFFFFF"
         android:text="@string/news"
-        android:textSize="10sp"
+        android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.607" />
+        app:layout_constraintTop_toBottomOf="@id/photoBtn"
+        app:layout_constraintVertical_bias="0.05"
+        android:fontFamily="@font/oswald_regular"
+        android:background="@drawable/button_border"
+        android:textColor="@color/white"
+        />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/settingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/settings"
-        android:textSize="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toTopOf="@id/photoBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.38" />
+        app:layout_constraintVertical_bias="0.95"
+        android:fontFamily="@font/oswald_regular"
+        android:background="@drawable/button_border"
+        android:textColor="@color/white"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,10 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
-        holder.bind(articleList[position])
+        if (position+1 > articleList.size-1){
+            return
+        }
+        holder.bind(articleList[position+1])
     }
 
     override fun getItemCount(): Int {

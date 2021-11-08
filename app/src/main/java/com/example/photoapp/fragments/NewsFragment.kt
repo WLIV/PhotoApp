@@ -4,6 +4,7 @@ import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.isGone
@@ -20,6 +21,8 @@ import com.example.photoapp.adapters.RecyclerViewAdapter
 import com.example.photoapp.viewmodels.NewsFragmentViewModel
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.constraintlayout.widget.ConstraintSet.GONE
+import com.google.android.material.appbar.AppBarLayout
 
 
 class NewsFragment : Fragment() {
@@ -29,6 +32,8 @@ class NewsFragment : Fragment() {
     private var topArticleTitle : TextView? = null
     private var topArticleDescription : TextView? = null
     private var topArticleImage : ImageView? = null
+    private var topArticleSection : AppBarLayout? = null
+    private var topArticleMark : TextView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,9 +45,11 @@ class NewsFragment : Fragment() {
 
 
 
-
+        topArticleSection = newsView.findViewById(R.id.top_article_section)
 
         topArticleTitle = newsView.findViewById(R.id.top_article_title)
+
+        topArticleMark = newsView.findViewById(R.id.top_article_mark)
 
        topArticleDescription = newsView.findViewById(R.id.top_article_description)
 
@@ -60,6 +67,25 @@ class NewsFragment : Fragment() {
         }
         recyclerView.addItemDecoration(dividerItemDecoration)
         recyclerView.adapter = recyclerViewAdapter
+        var newRVState : Int? = null
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                newRVState = newState
+
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy>0 && newRVState == 2){
+                    hideTopArticle()
+                }
+                if (!recyclerView.canScrollVertically(-1)){
+                    showTopArticle()
+                }
+
+            }
+        })
 
         viewModel.getArticles().observe(viewLifecycleOwner, {
             recyclerViewAdapter.setArticleList(it)
@@ -75,9 +101,19 @@ class NewsFragment : Fragment() {
             if (it != null) {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
             }
+
         })
 
         return newsView
+    }
+
+    private fun hideTopArticle() {
+        topArticleSection?.visibility = View.GONE
+    }
+
+    private fun showTopArticle(){
+
+        topArticleSection?.visibility = View.VISIBLE
     }
 
     private fun fillTopArticle(articleListItem: List<ArticleListItem>){
@@ -90,6 +126,7 @@ class NewsFragment : Fragment() {
         topArticleImage?.let { Glide.with(this).load(article.urlToImage).placeholder(R.drawable.ic_image_not_found).into(it) }
         topArticleDescription?.isVisible = true
         topArticleTitle?.isVisible = true
+        topArticleMark?.isVisible = true
 
 
     }

@@ -13,7 +13,19 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     android:background="@drawable/button_border"
+    android:animateLayoutChanges="true"
     >
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/top_article_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:text="@string/topArticle"
+        android:layout_marginEnd="0dp"
+        android:background="#2C2C2C"
+        />
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/top_article_image"
         android:layout_width="match_parent"
@@ -21,8 +33,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:adjustViewBounds="false"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="3dp"
         app:layout_constraintVertical_bias="0"
         app:layout_scrollFlags="scroll|enterAlways|snap"
         app:strokeColor="@color/white"
@@ -57,6 +67,7 @@
         app:layout_goneMarginLeft="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintHorizontal_bias="0"
         android:fontFamily="@font/oswald_light"
         app:layout_scrollFlags="scroll|enterAlways|snap"

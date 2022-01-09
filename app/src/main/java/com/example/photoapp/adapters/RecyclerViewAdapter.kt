@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.photoapp.R
 
 
-class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>() {
+class RecyclerViewAdapter(private val mContext: Context, private val onArticleClick : OnArticleClick?) : RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder>()  {
     private var articleList: List<ArticleListItem> = mutableListOf()
 
     fun setArticleList(articleList: List<ArticleListItem>) {
@@ -24,7 +24,7 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
         viewType: Int
     ): MyViewHolder {
         val view: View = LayoutInflater.from(mContext).inflate(R.layout.text_row_item, parent, false)
-        return MyViewHolder(view)
+        return MyViewHolder(view, onArticleClick)
     }
 
     override fun onBindViewHolder(holder:MyViewHolder, position: Int) {
@@ -38,13 +38,15 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
     return articleList.size
     }
 
-    inner class MyViewHolder(view: View) :
+    inner class MyViewHolder(view: View, onArticleClick: OnArticleClick?) : View.OnClickListener,
         RecyclerView.ViewHolder(view) {
         private val title : TextView = view.findViewById(R.id.article_title)
         private val description : TextView = view.findViewById(R.id.article_description)
         private val imageView : ImageView = view.findViewById(R.id.article_image)
 
+
         fun bind(news: ArticleListItem) {
+
             if (news.title == null){
                 title.text = R.string.noTitle.toString()
             }
@@ -59,7 +61,18 @@ class RecyclerViewAdapter(private val mContext: Context) : RecyclerView.Adapter<
                 .placeholder(R.drawable.ic_image_not_found)
                 .into(imageView)
 
+            itemView.setOnClickListener(this)
+
         }
 
+        override fun onClick(v: View?) {
+            onArticleClick?.onArticleClick(adapterPosition)
+        }
+
+
     }
+}
+
+public interface OnArticleClick{
+    fun onArticleClick(position : Int)
 }

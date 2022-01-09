@@ -22,13 +22,17 @@ import com.example.photoapp.viewmodels.NewsFragmentViewModel
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.constraintlayout.widget.ConstraintSet.GONE
+import androidx.core.view.get
+import androidx.navigation.NavDirections
+import androidx.navigation.Navigation
+import com.example.photoapp.adapters.OnArticleClick
 import com.google.android.material.appbar.AppBarLayout
 
 
 class NewsFragment : Fragment() {
 
     private lateinit var newsView: View
-
+    private var recyclerView : RecyclerView? = null
     private var topArticleTitle : TextView? = null
     private var topArticleDescription : TextView? = null
     private var topArticleImage : ImageView? = null
@@ -56,19 +60,19 @@ class NewsFragment : Fragment() {
         topArticleImage = newsView.findViewById(R.id.top_article_image)
 
 
-        val recyclerView = newsView.findViewById<RecyclerView>(R.id.recyclerView)
-        val recyclerViewAdapter = RecyclerViewAdapter(requireContext())
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView = newsView.findViewById<RecyclerView>(R.id.recyclerView)
+        val recyclerViewAdapter = RecyclerViewAdapter(requireContext(), viewModel)
+        recyclerView?.layoutManager = LinearLayoutManager(context)
         val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
         context?.getDrawable(R.drawable.recyclerview_divider)?.let {
             dividerItemDecoration.setDrawable(
                 it
             )
         }
-        recyclerView.addItemDecoration(dividerItemDecoration)
-        recyclerView.adapter = recyclerViewAdapter
+        recyclerView?.addItemDecoration(dividerItemDecoration)
+        recyclerView?.adapter = recyclerViewAdapter
         var newRVState : Int? = null
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+        recyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 newRVState = newState
@@ -83,6 +87,14 @@ class NewsFragment : Fragment() {
                 if (!recyclerView.canScrollVertically(-1)){
                     showTopArticle()
                 }
+
+            }
+        })
+        viewModel.getClickedArticle().observe(viewLifecycleOwner, {
+            if (it != null)
+            {
+                val action : NavDirections = NewsFragmentDirections.actionNewsFragmentToArticleFragment2(it)
+                Navigation.findNavController(newsView).navigate(action)
 
             }
         })
@@ -104,8 +116,14 @@ class NewsFragment : Fragment() {
 
         })
 
+        topArticleSection?.setOnClickListener(){
+            viewModel.onArticleClick(-1)
+        }
+
         return newsView
     }
+
+
 
     private fun hideTopArticle() {
         topArticleSection?.visibility = View.GONE
@@ -123,7 +141,7 @@ class NewsFragment : Fragment() {
         val article = articleListItem[0]
         topArticleTitle?.text = article.title
         topArticleDescription?.text = article.description
-        topArticleImage?.let { Glide.with(this).load(article.urlToImage).placeholder(R.drawable.ic_image_not_found).into(it) }
+        topArticleImage?.let { Glide.with(this).load(article.urlToImage).placeholder(R.drawable.ic_image_not_found).into(it)}
         topArticleDescription?.isVisible = true
         topArticleTitle?.isVisible = true
         topArticleMark?.isVisible = true
@@ -131,4 +149,6 @@ class NewsFragment : Fragment() {
 
     }
 
-    }
+
+
+}

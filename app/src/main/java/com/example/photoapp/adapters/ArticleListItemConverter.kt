@@ -9,7 +9,7 @@ class ArticleListItemConverter(val articleList : List<Article?> ) {
             return articleListItemList
         }
         articleList.forEach {
-            val articleListItem = ArticleListItem(it?.title, it?.description, it?.urlToImage)
+            val articleListItem = ArticleListItem(it?.title, it?.description, it?.urlToImage, it?.content)
             articleListItemList.add(articleListItem)
         }
         return articleListItemList

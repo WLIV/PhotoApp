@@ -29,10 +29,23 @@
         android:id="@+id/newsFragment"
         android:name="com.example.photoapp.fragments.NewsFragment"
         android:label="fragment_news"
-        tools:layout="@layout/fragment_news" />
+        tools:layout="@layout/fragment_news" >
+        <action
+            android:id="@+id/action_newsFragment_to_articleFragment2"
+            app:destination="@id/articleFragment" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.photoapp.fragments.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.example.photoapp.fragments.ArticleFragment"
+        android:label="fragment_article"
+        tools:layout="@layout/fragment_article" >
+        <argument
+            android:name="clickedArticleUrl"
+            app:argType="string" />
+    </fragment>
 </navigation>

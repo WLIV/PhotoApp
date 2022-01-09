@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.photoapp"
-        minSdk 21
+        minSdk 28
         targetSdk 30
         versionCode 1
         versionName "1.0"
@@ -29,9 +30,24 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    flavorDimensions"default"
+    productFlavors{
+        newsAppRu{
+            buildConfigField("String","NEWS_URL","\"top-headlines?country=ru&apiKey=17028bda87d74c4c969f1525e283c869\"")
+        }
+        newsAppUs{
+            buildConfigField("String","NEWS_URL","\"top-headlines?country=us&apiKey=17028bda87d74c4c969f1525e283c869\"")
+        }
+    }
 }
 
+
+
+
 dependencies {
+
+    implementation 'com.klinkerapps:article_viewer:0.26.0'
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'

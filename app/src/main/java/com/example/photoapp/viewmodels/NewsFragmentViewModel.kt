@@ -4,9 +4,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.Navigation
 import com.example.photoapp.adapters.ArticleListItem
 import com.example.photoapp.adapters.ArticleListItemConverter
+import com.example.photoapp.adapters.OnArticleClick
 import com.example.photoapp.repository.NewsClient
+import com.example.photoapp.retrofitadapter.Article
 import com.example.photoapp.retrofitadapter.News
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,12 +21,14 @@ import retrofit2.Response
 import java.lang.Exception
 
 
-class NewsFragmentViewModel : ViewModel() {
+class NewsFragmentViewModel : ViewModel(), OnArticleClick {
 
 
     private val articles = MutableLiveData<List<ArticleListItem>>(emptyList())
     private val progressBarHidden = MutableLiveData(false)
     private val errorMessage = MutableLiveData<String?>(null)
+    private val clickedArticle = MutableLiveData<String>(null)
+    private var callResult : News? = null
 
 
 
@@ -36,6 +41,9 @@ class NewsFragmentViewModel : ViewModel() {
         return errorMessage
     }
 
+    fun getClickedArticle() : LiveData<String>{
+        return clickedArticle
+    }
 
     fun getProgressBarStatus() : LiveData<Boolean>{
         return progressBarHidden
@@ -47,7 +55,7 @@ class NewsFragmentViewModel : ViewModel() {
 
     private suspend fun getNews() {
              val newsClient = NewsClient.getClientInstance()
-             val callResult : News? = try {
+              callResult  = try {
                  newsClient.getNews()
              }catch (e : Exception){
                  errorMessage.value = e.toString()
@@ -57,13 +65,20 @@ class NewsFragmentViewModel : ViewModel() {
              }
 
        if (callResult != null){
-           articles.value = callResult.articles?.let { ArticleListItemConverter(it).convertArticle() }
+           articles.value = callResult?.articles?.let { ArticleListItemConverter(it).convertArticle() }
            progressBarHidden.value = true
        }
         else{
            progressBarHidden.value = true
 
        }
+
+    }
+
+    override fun onArticleClick(position: Int) {
+        val article : Article? = callResult?.articles?.get(position+1)
+        clickedArticle.value = article?.url
+        clickedArticle.postValue(null)
 
     }
 

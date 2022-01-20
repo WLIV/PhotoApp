@@ -11,5 +11,7 @@
     <string name="ok">ок</string>
     <string name="minMaxErrorTitle">Минимум больше максимума!</string>
     <string name="topArticle">Топ Статья</string>
+    <string name="somethingWentWrong">Что-то пошло не так :(</string>
+    <string name="errorCode">Код ошибки: </string>
 
 </resources>

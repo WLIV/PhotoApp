@@ -2,32 +2,46 @@ package com.example.photoapp.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.photoapp.adapters.OnArticleClick
-import com.example.photoapp.utils.ArticleContentParser
-import com.google.gson.GsonBuilder
+import com.example.photoapp.repository.ArticleClient
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import xyz.klinker.android.article.ArticleActivity
-import xyz.klinker.android.article.ArticleUtils
-import xyz.klinker.android.article.api.ArticleApi
-import xyz.klinker.android.article.data.Article
-import xyz.klinker.android.article.data.model.ArticleModel
+import java.lang.Exception
 
 class ArticleFragmentViewModel(app : Application) : AndroidViewModel(app) {
-    val articleLiveData = MutableLiveData<Article>()
+    private var callResult : com.example.photoapp.articleapiadapter.ArticleApiModel? = null
+
+    private val articleLiveData = MutableLiveData<com.example.photoapp.retrofitadapter.Article?>()
+
+    private val errorLiveData = MutableLiveData<String>()
 
 
-    fun getArticle(url : String) : MutableLiveData<Article>{
-        loadArticle(url)
+    fun getArticle(url : String) : MutableLiveData<com.example.photoapp.retrofitadapter.Article?>{
+        CoroutineScope(Dispatchers.IO).launch{loadArticle(url)}
         return articleLiveData
     }
 
-    private fun loadArticle(url: String) {
-        val articleContentParser = ArticleContentParser()
-        val articleUtils = ArticleUtils("a8f22ef295e404a24ffbc0a93d4850cb")
-        val article = articleUtils.fetchArticle(getApplication(), url)
-        article.content =  articleContentParser.parseContent(article)
-        articleLiveData.value = article
+    fun getErrorLiveData() : LiveData<String>{
+        return errorLiveData
     }
+
+    private suspend fun loadArticle(url: String) {
+        val client = ArticleClient.getArticleClientInstance()
+
+        callResult = try {
+            client.getArticle(url,
+                "extract-news.p.rapidapi.com",
+                "1f6e800a3cmsh19a296b18eb4bf5p186926jsn7893289f2bd9")
+        }catch (e : Exception){
+            errorLiveData.postValue(e.toString())
+            null
+        }
+        articleLiveData.postValue(callResult?.article)
+    }
+
+
+
 }
+
+
+    

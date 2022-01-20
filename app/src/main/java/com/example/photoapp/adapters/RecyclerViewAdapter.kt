@@ -73,6 +73,6 @@ class RecyclerViewAdapter(private val mContext: Context, private val onArticleCl
     }
 }
 
-public interface OnArticleClick{
+interface OnArticleClick{
     fun onArticleClick(position : Int)
 }

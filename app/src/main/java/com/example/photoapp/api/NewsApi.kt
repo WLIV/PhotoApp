@@ -9,7 +9,6 @@ import retrofit2.http.Query
 
 interface NewsApi {
 
-    //параметры сделай через query
     @GET(BuildConfig.NEWS_URL)
     suspend fun getNews() : News
 
